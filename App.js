@@ -8,18 +8,22 @@ import Login from "./src/screens/Login";
 export default function App() {
   const Stack = createStackNavigator();
 
+  const optionScreens = {
+    headerShown: false,
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Login"
           component={Login}
-          option={{ title: "Login" }}
+          options={optionScreens}
         />
         <Stack.Screen
           name="Register"
           component={Register}
-          option={{ title: "Register" }}
+          options={optionScreens}
         />
       </Stack.Navigator>
     </NavigationContainer>

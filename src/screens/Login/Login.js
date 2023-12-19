@@ -19,9 +19,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleRegister = () => {
-    // Navigate to the registration screen (you need to implement navigation)
-    // For example, using React Navigation: navigation.navigate('Register');
-    console.log("Navigate to registration screen");
+    navigation.navigate('Register');
   };
 
   return (
