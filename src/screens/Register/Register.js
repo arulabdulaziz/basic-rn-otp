@@ -8,20 +8,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { validateEmailUtils, validatePasswordUtils } from "../../utils";
+
 const RegisterScreen = ({ navigation }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [registered, setRegistered] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = () => validateEmailUtils(email, setEmailError);
+
+  const validatePassword = () => validatePasswordUtils(password, setPasswordError);
 
   const handleRegister = () => {
     // In a real-world scenario, you would perform registration logic here.
     // For simplicity, we'll just set a flag to indicate a successful registration.
-    setRegistered(true);
   };
 
   const handleLogin = () => {
     navigation.goBack();
   };
+
+  const disabled = (emailError || !email) && (passwordError || !password);
 
   return (
     <View style={styles.container}>
@@ -29,18 +37,27 @@ const RegisterScreen = ({ navigation }) => {
         <Text style={styles.titleText}>Register</Text>
         <TextInput
           style={styles.input}
-          placeholder="Username"
-          onChangeText={(text) => setUsername(text)}
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          onBlur={validateEmail}
         />
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
+          onBlur={validatePassword}
         />
+        {passwordError ? (
+          <Text style={styles.errorText}>{passwordError}</Text>
+        ) : null}
         <TouchableOpacity
           style={styles.registerButton}
           onPress={handleRegister}
+          disabled={disabled}
         >
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
@@ -96,6 +113,10 @@ const styles = StyleSheet.create({
     color: "#3498db",
     marginTop: 15,
     textAlign: "center",
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
   },
 });
 
