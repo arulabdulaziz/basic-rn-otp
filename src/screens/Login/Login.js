@@ -57,13 +57,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#f5f5f5",
   },
-  loggedContainer: {
-    alignItems: "center",
-  },
-  welcomeText: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
   formContainer: {
     width: "80%",
     padding: 20,
