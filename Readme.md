@@ -1,5 +1,8 @@
 # Basic React Native Otp
 
+## APK File
+https://drive.google.com/file/d/1MvxU6Y-E3VR7jx3as9uY7Y5ZYDV5Qsp3/view?usp=sharing
+
 ## Demo Application
 https://github.com/arulabdulaziz/basic-rn-otp/assets/71963870/92cd9cbf-4bb3-4a3e-bd04-c0a4cbd473ad
 
