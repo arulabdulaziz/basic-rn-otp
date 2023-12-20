@@ -3,35 +3,51 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 import { Container } from "../../components";
 import { validateEmailUtils, validatePasswordUtils } from "../../utils";
+import axios from "../../axios";
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = () => validateEmailUtils(email, setEmailError);
 
   const validatePassword = () =>
     validatePasswordUtils(password, setPasswordError);
 
-  const handleRegister = () => {
-    // In a real-world scenario, you would perform registration logic here.
-    // For simplicity, we'll just set a flag to indicate a successful registration.
+  const handleRegister = async () => {
+    validateEmail();
+    validatePassword();
+    if (!emailError && !passwordError) {
+      try {
+        setLoading(true);
+        const { data } = await axios.get("/users", { params: { email } });
+        if (data.length !== 0) {
+          throw "User Already Exist!";
+        }
+        navigation.replace('OtpInput', { email, password })
+      } catch (error) {
+        Alert.alert("Error", JSON.stringify(error));
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const handleLogin = () => {
     navigation.goBack();
   };
 
-  const disabled = (emailError || !email) && (passwordError || !password);
+  const disabled = loading || emailError || !email || passwordError || !password;
 
   return (
     <Container>
@@ -44,6 +60,7 @@ const RegisterScreen = ({ navigation }) => {
           keyboardType="email-address"
           autoCapitalize="none"
           onBlur={validateEmail}
+          editable={!loading}
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
         <TextInput
@@ -52,6 +69,7 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           onBlur={validatePassword}
+          editable={!loading}
         />
         {passwordError ? (
           <Text style={styles.errorText}>{passwordError}</Text>

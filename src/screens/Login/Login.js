@@ -27,7 +27,6 @@ const LoginScreen = ({ navigation }) => {
       try {
         setLoading(true);
         const { data } = await axios.get("/users", { params: { email } });
-        console.log(data, "<<<");
         if (data.length === 0) {
           throw "User not Found";
         }
@@ -54,7 +53,7 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate("Register");
   };
 
-  const disabled = emailError || !email || passwordError || !password;
+  const disabled = loading || emailError || !email || passwordError || !password;
 
   return (
     <Container>

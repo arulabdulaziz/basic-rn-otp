@@ -9,10 +9,13 @@ const MainPage = ({ navigation }) => {
 
   const onLogout = async () => {
     try {
-      await AsyncStorage.removeItem('user');
-      navigation.replace('Login');
+      setLoading(true);
+      await AsyncStorage.removeItem("user");
+      navigation.replace("Login");
     } catch (error) {
       Alert.alert("Error", JSON.stringify(error));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -20,7 +23,11 @@ const MainPage = ({ navigation }) => {
     <Container>
       <View style={styles.loggedContainer}>
         <Text style={styles.welcomeText}>Welcome, User!</Text>
-        <Button title={loading ? '...' : 'Logout'} onPress={onLogout} disabled={loading}/>
+        <Button
+          title={loading ? "..." : "Logout"}
+          onPress={onLogout}
+          disabled={loading}
+        />
       </View>
     </Container>
   );
