@@ -23,7 +23,7 @@ https://github.com/arulabdulaziz/basic-rn-otp/assets/71963870/c83873cc-760d-435c
     - App Store
       https://apps.apple.com/us/app/expo-go/id982107779
 2.  Follow link below
-    https://expo.dev/@arulabdulaziz/JunaRestaurant-Mobile?serviceType=classic&distribution=expo-go
+    https://expo.dev/%40arulabdulaziz/basic-rn-otp?serviceType=classic&distribution=expo-go
 3.  Scan QR Code on the link using expo app
 
 ### Using clone the repository
