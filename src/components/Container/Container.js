@@ -2,9 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const Container = (props) => {
+  const { children, containerStyle = {} } = props;
+
   return (
-    <View style={styles.container}>
-      {props.children}
+    <View style={[styles.container, containerStyle]}>
+      {children}
     </View>
   )
 }

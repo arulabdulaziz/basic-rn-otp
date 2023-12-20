@@ -15,7 +15,13 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="OtpInput">
+        <Stack.Screen name="Login" component={Login} options={optionScreens} />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={optionScreens}
+        />
         <Stack.Screen
           name="MainPage"
           component={MainPage}
@@ -24,12 +30,6 @@ export default function App() {
         <Stack.Screen
           name="OtpInput"
           component={OtpInput}
-          options={optionScreens}
-        />
-        <Stack.Screen name="Login" component={Login} options={optionScreens} />
-        <Stack.Screen
-          name="Register"
-          component={Register}
           options={optionScreens}
         />
       </Stack.Navigator>
