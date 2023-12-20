@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,11 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Container } from "../../components";
-import { validateEmailUtils, validatePasswordUtils } from "../../utils";
+import {
+  validateEmailUtils,
+  validatePasswordUtils,
+  checkUserData,
+} from "../../utils";
 import axios from "../../axios";
 
 const LoginScreen = ({ navigation }) => {
@@ -20,10 +24,14 @@ const LoginScreen = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    checkUserData(navigation, "Login");
+  }, []);
+
   const handleLogin = async () => {
-    validateEmail();
-    validatePassword();
-    if (!emailError && !passwordError) {
+    const emailErrorUtils = validateEmail();
+    const passwordErrorUtils = validatePassword();
+    if (!emailErrorUtils && !passwordErrorUtils) {
       try {
         setLoading(true);
         const { data } = await axios.get("/users", { params: { email } });
@@ -35,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
           throw "Wrong Password!";
         }
         await AsyncStorage.setItem("user", JSON.stringify(user));
-        navigation.navigate("MainPage");
+        navigation.replace("MainPage");
       } catch (error) {
         Alert.alert("Error", JSON.stringify(error));
       } finally {
@@ -52,8 +60,6 @@ const LoginScreen = ({ navigation }) => {
   const handleRegister = () => {
     navigation.navigate("Register");
   };
-
-  const disabled = loading || emailError || !email || passwordError || !password;
 
   return (
     <Container>
@@ -83,7 +89,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={handleLogin}
-          disabled={disabled}
+          disabled={loading}
         >
           <Text style={styles.buttonText}>{loading ? "...." : "Login"}</Text>
         </TouchableOpacity>

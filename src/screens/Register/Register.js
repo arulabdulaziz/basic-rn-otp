@@ -25,9 +25,9 @@ const RegisterScreen = ({ navigation }) => {
     validatePasswordUtils(password, setPasswordError);
 
   const handleRegister = async () => {
-    validateEmail();
-    validatePassword();
-    if (!emailError && !passwordError) {
+    const emailErrorUtils = validateEmail();
+    const passwordErrorUtils = validatePassword();
+    if (!emailErrorUtils && !passwordErrorUtils) {
       try {
         setLoading(true);
         const { data } = await axios.get("/users", { params: { email } });
@@ -46,8 +46,6 @@ const RegisterScreen = ({ navigation }) => {
   const handleLogin = () => {
     navigation.goBack();
   };
-
-  const disabled = loading || emailError || !email || passwordError || !password;
 
   return (
     <Container>
@@ -77,7 +75,7 @@ const RegisterScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.registerButton}
           onPress={handleRegister}
-          disabled={disabled}
+          disabled={loading}
         >
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>

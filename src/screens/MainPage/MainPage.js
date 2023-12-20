@@ -1,11 +1,16 @@
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Container } from "../../components";
+import { checkUserData } from "../../utils";
 
 const MainPage = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    checkUserData(navigation, 'MainPage');
+  }, []);
 
   const onLogout = async () => {
     try {
