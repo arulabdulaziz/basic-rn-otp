@@ -1,9 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import Register from "./src/screens/Register";
 import Login from "./src/screens/Login";
+import OtpInput from "./src/screens/OtpInput";
+import MainPage from "./src/screens/MainPage";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -16,10 +17,16 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Login"
-          component={Login}
+          name="MainPage"
+          component={MainPage}
           options={optionScreens}
         />
+        <Stack.Screen
+          name="OtpInput"
+          component={OtpInput}
+          options={optionScreens}
+        />
+        <Stack.Screen name="Login" component={Login} options={optionScreens} />
         <Stack.Screen
           name="Register"
           component={Register}

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { Container } from "../../components";
 import { validateEmailUtils, validatePasswordUtils } from "../../utils";
 
 const RegisterScreen = ({ navigation }) => {
@@ -18,7 +19,8 @@ const RegisterScreen = ({ navigation }) => {
 
   const validateEmail = () => validateEmailUtils(email, setEmailError);
 
-  const validatePassword = () => validatePasswordUtils(password, setPasswordError);
+  const validatePassword = () =>
+    validatePasswordUtils(password, setPasswordError);
 
   const handleRegister = () => {
     // In a real-world scenario, you would perform registration logic here.
@@ -32,7 +34,7 @@ const RegisterScreen = ({ navigation }) => {
   const disabled = (emailError || !email) && (passwordError || !password);
 
   return (
-    <View style={styles.container}>
+    <Container>
       <View style={styles.formContainer}>
         <Text style={styles.titleText}>Register</Text>
         <TextInput
@@ -67,17 +69,11 @@ const RegisterScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-  },
   formContainer: {
     width: "80%",
     padding: 20,
