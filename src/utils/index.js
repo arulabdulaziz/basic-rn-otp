@@ -10,9 +10,9 @@ export const validateEmailUtils = (email, setEmailError) => {
 };
 
 export const validatePasswordUtils = (password, setPasswordError) => {
-  if (!passwordRegex.test(password)) {
+  if (password.length < 8) {
     setPasswordError(
-      "Password must contain at least 8 characters, a lowercase letter, an uppercase letter, and a symbol."
+      "Password must contain at least 8 characters."
     );
   } else {
     setPasswordError("");

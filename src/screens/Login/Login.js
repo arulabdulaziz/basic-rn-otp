@@ -5,31 +5,56 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Container } from "../../components";
 import { validateEmailUtils, validatePasswordUtils } from "../../utils";
+import axios from "../../axios";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    // In a real-world scenario, you would perform authentication logic here.
-    // For simplicity, we'll just set a flag to indicate a successful login.
+  const handleLogin = async () => {
+    validateEmail();
+    validatePassword();
+    if (!emailError && !passwordError) {
+      try {
+        setLoading(true);
+        const { data } = await axios.get("/users", { params: { email } });
+        console.log(data, "<<<");
+        if (data.length === 0) {
+          throw "User not Found";
+        }
+        const user = data[0];
+        if (user.password !== password) {
+          throw "Wrong Password!";
+        }
+        await AsyncStorage.setItem("user", JSON.stringify(user));
+        navigation.navigate("MainPage");
+      } catch (error) {
+        Alert.alert("Error", JSON.stringify(error));
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const validateEmail = () => validateEmailUtils(email, setEmailError);
 
-  const validatePassword = () => validatePasswordUtils(password, setPasswordError);
+  const validatePassword = () =>
+    validatePasswordUtils(password, setPasswordError);
 
   const handleRegister = () => {
     navigation.navigate("Register");
   };
 
-  const disabled = (emailError || !email) && (passwordError || !password);
+  const disabled = emailError || !email || passwordError || !password;
 
   return (
     <Container>
@@ -41,6 +66,7 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) => setEmail(text)}
           keyboardType="email-address"
           autoCapitalize="none"
+          editable={!loading}
           onBlur={validateEmail}
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
@@ -50,6 +76,7 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           onBlur={validatePassword}
+          editable={!loading}
         />
         {passwordError ? (
           <Text style={styles.errorText}>{passwordError}</Text>
@@ -59,7 +86,7 @@ const LoginScreen = ({ navigation }) => {
           onPress={handleLogin}
           disabled={disabled}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>{loading ? "...." : "Login"}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleRegister}>
           <Text style={styles.registerText}>

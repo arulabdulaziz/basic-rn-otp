@@ -15,7 +15,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="OtpInput">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={optionScreens} />
         <Stack.Screen
           name="Register"
